@@ -18,6 +18,24 @@ class App extends Component {
   };
   contactId = nanoid();
 
+  componentDidMount() {
+    console.log('app is loaded');
+    const contacts = localStorage.getItem('contacts');
+    const parseContacts = JSON.parse(contacts);
+    // console.log(parseContacts);
+    if (parseContacts) {
+      this.setState({ contacts: parseContacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // console.log('component did update');
+    if (this.state.contacts !== prevState.contacts) {
+      console.log('field contacts updated');
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   formSubmitHandler = data => {
     // console.log(data);
   };
@@ -53,23 +71,6 @@ class App extends Component {
     }));
   };
 
-  componentDidMount() {
-    console.log('app is loaded');
-    const contacts = localStorage.getItem('contacts');
-    const parseContacts = JSON.parse(contacts);
-    // console.log(parseContacts);
-    if (parseContacts) {
-      this.setState({ contacts: parseContacts });
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    // console.log('component did update');
-    if (this.state.contacts !== prevState.contacts) {
-      // console.log('field contacts updated');
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
   render() {
     const { contacts, filter } = this.state;
     console.log(this.state);
